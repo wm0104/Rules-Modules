@@ -1,13 +1,29 @@
 #!name=去广告
-#!desc=开屏广告
+#!desc=去广告合集
 #!category=去广告
 
 [Rule]
 # 淘宝
 DOMAIN-SUFFIX,h-adashx.ut.taobao.com,REJECT // 淘宝后台广告
 DOMAIN,heic.alicdn.com,REJECT // 淘宝后台广告
+DOMAIN,adashx.m.taobao.com,REJECT,extended-matching,pre-matching
+DOMAIN,ossgw.alicdn.com,REJECT,extended-matching,pre-matching
+DOMAIN,ems.youku.com,REJECT,extended-matching,pre-matching
+DOMAIN,hudong.alicdn.com,REJECT,extended-matching,pre-matching
+DOMAIN,h-adashx.ut.taobao.com,REJECT,extended-matching,pre-matching
+DOMAIN,ut.taobao.com,REJECT,extended-matching,pre-matching
+
+#网易云音乐
+DOMAIN,iadmat.nosdn.127.net,REJECT,extended-matching,pre-matching
+DOMAIN,iadmatapk.nosdn.127.net,REJECT,extended-matching,pre-matching
+DOMAIN,iadmusicmat.music.126.net,REJECT,extended-matching,pre-matching
+DOMAIN,iadmusicmatvideo.music.126.net,REJECT,extended-matching,pre-matching
+DOMAIN,ipv4.music.163.com,REJECT,extended-matching,pre-matching
+DOMAIN,ipv6.music.163.com,REJECT,extended-matching,pre-matching
+
 # 12306
 DOMAIN,ad.12306.cn,DIRECT,extended-matching
+
 # 美柚广告/推广域名
 DOMAIN-SUFFIX,ad.meiyou.com,REJECT
 DOMAIN-SUFFIX,promote.meiyou.com,REJECT
@@ -17,29 +33,59 @@ DOMAIN-SUFFIX,track.meiyou.com,REJECT
 [URL Rewrite]
 # 中国广电
 ^https?:\/\/app\.10099\.com\.cn\/contact-web\/api\/version\/getFlashScreenPage reject header
+
 # 美柚
 ^http:\/\/x\.seeyouyima\.com\/adx\/staticstics\? reject header
 ^https:\/\/axxd\.xmseeyouyima\.com\/ad\/ reject header
 ^https:\/\/axxd\.xmseeyouyima\.com\/ad_statistics\? reject header
 ^https:\/\/axxd\.xmseeyouyima\.com\/v1\/getad\? reject header
 ^https:\/\/axxd\.xmseeyouyima\.com\/pregetad\? reject header
-# 淘宝
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome\/ - reject-200
-^https?+:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.tmall\.wireless - reject-200
-^https?+:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv - reject-200
-^https?+:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise\/ - reject-200
-^https?+:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get\/ - reject-200
-^https?+:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources\/ - reject-200
+
 # > 交管12123
 ^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject-200
 ^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery - reject-200
+
 # > 酷安
 coolapk = type=http-response,pattern=^https?:\/\/api\.coolapk\.com\/v6\/(feed\/(replyList|detail)|main\/indexV8|dataList),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/master/coolapk.js
+
 [Map Local]
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(allresource|predict) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/\d*\/?[\w!]+-\d-(octopus|tps-1125-1602|tps-1080-1920)\.(jp|pn)g_(1\d{3}|9\d{2})x(1\d{3}|9\d{2})q[59]0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 网易云音乐
+^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:delivery\/(batch-)?deliver|moment\/tab\/info\/|side-bar\/mini-program\/music-service\/account|yunbei\/account\/entrance\/) data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:community\/friends\/fans-group\/artist\/group\/|mine\/applet\/redpoint|music\/songshare\/text\/recommend\/|resniche\/position\/play\/new\/|resniche\/tspopup\/show|resource\/comments?\/musiciansaid\/|user\/sub\/artist) data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:ios\/version|mlivestream\/entrance\/playpage\/|link\/position\/show\/strategy|link\/scene\/show\/resource|v1\/content\/exposure\/comment\/banner\/) data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?eapi\/(?:activity\/bonus\/playpage\/time\/query|resource-exposure\/|search\/(?:chart\/|rcmd\/keyword\/|specialkeyword\/)) data-type=text data="{}" status-code=200
+^https:\/\/interface\d\.music\.163\.com\/eapi\/my\/podcast\/tab\/recommend data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/e?api\/(ocpc\/)?ad\/ data-type=text data="" header="Content-Type:text/plain"
+^https?:\/\/interface\d?\.music\.163.com\/w?e?api\/search\/default data-type=text data="" header="Content-Type:text/plain"
 
 [Script]
-移除12306开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://kelee.one/Resource/JavaScript/12306/12306_remove_splashscreen_ads.js, requires-body=true
+# 淘宝
+移除淘宝开屏广告 = type=http-response, pattern=^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get), script-path=https://kelee.one/Resource/JavaScript/Taobao/Taobao_remove_ads.js, requires-body=true
+移除淘宝开屏广告 = type=http-response, pattern=^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json, script-path=https://kelee.one/Resource/JavaScript/Taobao/Taobao_remove_ads.js, requires-body=true
 
+# 网易云
+评论区、热推、有话想说、分享一下、歌曲下的祝福等小提示 = type=http-response, pattern=^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:batch|v2\/resource\/comment\/floor\/get), script-path=https://kelee.one/Resource/Script/NeteaseCloudMusic/NeteaseCloudMusic_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=20
+推荐、home、主页 = type=http-response, pattern=^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:homepage\/block\/page|link\/page\/rcmd\/(?:block\/resource\/multi\/refresh|resource\/show)), script-path=https://kelee.one/Resource/Script/NeteaseCloudMusic/NeteaseCloudMusic_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=20, argument="[{PRGG},{PRRK},{PRDRD},{PRSCVPT},{PRST},{PRRR},{HMPR},{PRMST},{PRCN}]"
+底部选项卡 = type=http-response, pattern=^https?:\/\/interface\d?\.music\.163\.com\/eapi\/link\/home\/framework\/tab, script-path=https://kelee.one/Resource/Script/NeteaseCloudMusic/NeteaseCloudMusic_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=20, argument="[{MY},{DT},{FX}]"
+发现页 = type=http-response, pattern=^https?:\/\/interface\d?\.music\.163\.com\/eapi\/link\/page\/discovery\/resource\/show, script-path=https://kelee.one/Resource/Script/NeteaseCloudMusic/NeteaseCloudMusic_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=20
+我的页面 = type=http-response, pattern=^https?:\/\/interface\d?\.music\.163\.com\/eapi\/link\/position\/show\/resource, script-path=https://kelee.one/Resource/Script/NeteaseCloudMusic/NeteaseCloudMusic_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=20
+显示未关注你的人 = type=http-response, pattern=^https?:\/\/interface\d?\.music\.163\.com\/eapi\/user\/follow\/users\/mixed\/get, script-path=https://kelee.one/Resource/Script/NeteaseCloudMusic/NeteaseCloudMusic_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=20
+
+# 12306
+移除12306开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://kelee.one/Resource/JavaScript/12306/12306_remove_splashscreen_ads.js, requires-body=true
 移除12306应用内广告 = type=http-request, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://kelee.one/Resource/JavaScript/12306/12306_remove_ads.js
+
 [MITM]
-hostname= %APPEND% acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com,app.10099.com.cn,x.seeyouyima.com, axxd.xmseeyouyima.com,ad.12306.cn, mobile.12306.cn,api.coolapk.com
+hostname= %APPEND% acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com,app.10099.com.cn,x.seeyouyima.com, axxd.xmseeyouyima.com,ad.12306.cn, mobile.12306.cn,api.coolapk.com,interface*.music.163.com
