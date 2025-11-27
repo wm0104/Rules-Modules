@@ -2,7 +2,7 @@
 #!desc=AppStore走代理其它走直连
 #!category=工具
 
-[Rule]
+[RULE]
 # AppStore走代理
 DOMAIN-SUFFIX,apps.apple.com,全球加速
 DOMAIN-SUFFIX,itunes.apple.com,全球加速
